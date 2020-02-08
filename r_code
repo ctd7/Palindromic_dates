@@ -1,0 +1,42 @@
+is_palindrome <- function(word) {
+  # function to determine if word or text string is a palindrome. Returns TRUE or FALSE. Case DEPENDENT
+  library(stringr)
+  # library is essential. May need to install first
+  split_word <- unlist((str_split(word, pattern = "")))
+  # splits string into vector of individual characters with length of the character length
+  reverse_word <- split_word[str_length(word):1]
+  # reverses the order of the vector
+  paste_word <- paste(reverse_word, collapse = "")
+  # collapses back into a single string
+  if (word == paste_word) {return(TRUE)}
+  if (word != paste_word) {return(FALSE)}
+  # tests to see if they match, and thus a palindrome
+}
+
+dt = format(as.Date("2000-01-01"),format = "%m%d%Y")
+# dt is a variable of the current test date with appropriate format
+dti = as.Date("2001-01-01")
+# starting date of 21st century. Even if you subscribe to 21st century startin in year 2000, 
+# there are no palindromes in calendar year 2000 
+dtf = as.Date("2101-01-01") - dti
+dtf = as.numeric(dtf)
+# dtf is total number of days in 21st century
+dtp = dt
+# dtp is vector keeping all the palindromic dates
+
+for (i in 0:dtf) {
+    dt = format(dti + i,format = "%m%d%Y")
+    if (is_palindrome(dt)) {
+      dtp = c(dtp,i)
+    }
+    # goes through every day and see if it is a palindrome. If so, keeps the counting varibale i into the dtp vector
+    # slow algorithim, but effective. Could speed up by using some logic. I.e, the day of the month has to be the 2nd
+    # to be a valid palindrome xy-02-20yx -> xy-02-20yx. Similarly, x and y must be equal. But, not really an issue with
+    # modern computers
+}
+
+dtp = dtp[-1]
+# remove the dummy value to initiate vector
+dtp1 = as.numeric(dtp) # dtp1 ensures they are numeric values
+print(format(dti+dtp1,format = "%m-%d-%Y")) # print out all paldiromic dates
+print(length(dtp1)) # get the number of palidromic dates
